@@ -2,6 +2,7 @@ package com.example.singh.randomcardgenerator;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +32,9 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
     //setting up the list view
     ListView l;
     String[] navigationOptions={"New Game","Help","Exit"};
-    //setter
+
+    //Drawer
+    private  DrawerLayout drawer;
 
 
     public void setCardButton(List<Button> cardButton) {
@@ -126,6 +129,10 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
         //setting up the text value
        countDownTimer._myGameTimer= (TextView)findViewById(R.id.myGameTimer);
         countDownTimer._myGameTimer.setText("Timer: " + String.valueOf(startTime / 1000));
+
+
+       drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
+
     }
 
     @Override
@@ -220,6 +227,9 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
 
           //updating the UI again
           this.updateUI();
+
+          //closing the drawer
+           drawer.closeDrawer(l);
 
 
           this._gameInfo.setText("Tap Card To Play");
