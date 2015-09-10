@@ -22,8 +22,6 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
     private myCounter countDownTimer;
     private final long startTime = 50000;
     private final long interval = 1000;
-   // private TextView _myGameTimer;
-    private boolean _timeHasStarted =false;
    // private int Score=0;
     private TextView flipLable;
     private CardMatchingGame game;
@@ -156,9 +154,9 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
     public void onFlip(View view)
     {
         //starting the timer
-        if(!_timeHasStarted) {
+        if(!countDownTimer.is_timeHasStarted()) {
             countDownTimer.start();
-            _timeHasStarted = true;
+            countDownTimer.set_timeHasStarted(true);
         }
 
 
