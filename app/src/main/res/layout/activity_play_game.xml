@@ -335,6 +335,20 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="15dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Timer:"
+        android:id="@+id/myGameTimer"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:layout_alignTop="@+id/flip_count"
+        android:layout_toLeftOf="@+id/button18"
+        android:layout_toStartOf="@+id/button18" />
+
+
 </RelativeLayout>
 
     <!-- Side navigation drawer UI -->

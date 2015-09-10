@@ -1,29 +1,27 @@
 package com.example.singh.randomcardgenerator;
 
+import android.app.AlertDialog;
 import android.os.CountDownTimer;
+import android.widget.TextView;
 
 /**
  * Created by singh on 10/09/2015.
  */
 public class myCounter extends CountDownTimer {
-    /**
-     * @param millisInFuture    The number of millis in the future from the call
-     *                          to {@link #start()} until the countdown is done and {@link #onFinish()}
-     *                          is called.
-     * @param countDownInterval The interval along the way to receive
-     *                          {@link #onTick(long)} callbacks.
-     */
+
+    TextView _myGameTimer;
     public myCounter(long millisInFuture, long countDownInterval) {
         super(millisInFuture, countDownInterval);
     }
 
     @Override
     public void onTick(long millisUntilFinished) {
-        //
+        _myGameTimer.setText("Timer: " + millisUntilFinished / 1000);
     }
 
     @Override
     public void onFinish() {
+        //game over dialog popup message with the score made
 
     }
 }

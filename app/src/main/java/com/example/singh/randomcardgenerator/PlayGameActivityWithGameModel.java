@@ -1,6 +1,7 @@
 package com.example.singh.randomcardgenerator;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +19,11 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
 
     private PlayingCardDeck deck;
     private int flipCount=0;
+    private myCounter countDownTimer;
+    private final long startTime = 50000;
+    private final long interval = 1000;
+   // private TextView _myGameTimer;
+    private boolean _timeHasStarted =false;
    // private int Score=0;
     private TextView flipLable;
     private CardMatchingGame game;
@@ -115,6 +121,13 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
         //setting up the adapter
         l.setAdapter(adapter);
         l.setOnItemClickListener(this);
+
+        //creating instance of myCounter.
+        countDownTimer = new myCounter(startTime,interval);
+
+        //setting up the text value
+       countDownTimer._myGameTimer= (TextView)findViewById(R.id.myGameTimer);
+        countDownTimer._myGameTimer.setText("Timer: " + String.valueOf(startTime / 1000));
     }
 
     @Override
@@ -142,6 +155,13 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
     //flipping card here
     public void onFlip(View view)
     {
+        //starting the timer
+        if(!_timeHasStarted) {
+            countDownTimer.start();
+            _timeHasStarted = true;
+        }
+
+
         //incrementing the flipcount
         flipCount++;
          Button _button = (Button)findViewById(view.getId());
@@ -211,4 +231,5 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
           //exit the activity
       }
     }
+
 }
