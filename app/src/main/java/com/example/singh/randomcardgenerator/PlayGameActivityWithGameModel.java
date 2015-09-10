@@ -128,7 +128,7 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
 
         //setting up the text value
        countDownTimer._myGameTimer= (TextView)findViewById(R.id.myGameTimer);
-        countDownTimer._myGameTimer.setText("Timer: " + String.valueOf(startTime / 1000));
+        countDownTimer._myGameTimer.setText("Timer: " + String.valueOf(startTime / 1000)+"s");
 
 
        drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -231,6 +231,10 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
           //closing the drawer
            drawer.closeDrawer(l);
 
+          //resetting the timer
+          countDownTimer.set_timeHasStarted(false);
+          countDownTimer.cancel();
+          countDownTimer._myGameTimer.setText("Timer: "+String.valueOf(startTime/1000));
 
           this._gameInfo.setText("Tap Card To Play");
           this.flipLable.setText("Flips:" + flipCount);

@@ -29,7 +29,7 @@ public class myCounter extends CountDownTimer {
 
     @Override
     public void onTick(long millisUntilFinished) {
-        _myGameTimer.setText("Timer: " + millisUntilFinished / 1000);
+        _myGameTimer.setText("Timer: " + millisUntilFinished / 1000+"s");
     }
 
     @Override

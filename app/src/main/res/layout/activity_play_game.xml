@@ -339,7 +339,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Timer:"
+        android:text="Timer:50s"
         android:id="@+id/myGameTimer"
         android:textStyle="bold"
         android:textColor="#ffffff"
