@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:background="@android:color/holo_orange_light">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/playButton"
+        android:id="@+id/playButton"
+        android:layout_marginTop="69dp"
+        android:background="@color/button_material_light"
+        android:onClick="onPlay"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/button20"
+        android:layout_alignStart="@+id/button20" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/helpButton"
+        android:id="@+id/help"
+        android:background="@color/button_material_light"
+        android:layout_below="@+id/playButton"
+        android:layout_alignLeft="@+id/playButton"
+        android:layout_alignStart="@+id/playButton"
+        android:layout_marginTop="20dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Top Scores"
+        android:id="@+id/button19"
+        android:background="@color/button_material_light"
+        android:layout_below="@+id/help"
+        android:layout_alignLeft="@+id/help"
+        android:layout_alignStart="@+id/help"
+        android:layout_marginTop="26dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Exit"
+        android:id="@+id/button20"
+        android:background="@color/button_material_light"
+        android:layout_marginTop="26dp"
+        android:layout_below="@+id/button19"
+        android:layout_centerHorizontal="true" />
+    
+
+</RelativeLayout>
