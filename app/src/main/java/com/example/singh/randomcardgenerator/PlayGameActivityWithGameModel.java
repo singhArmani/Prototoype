@@ -125,13 +125,15 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
 
         //creating instance of myCounter.
         countDownTimer = new myCounter(startTime,interval);
+        countDownTimer.currentActivity = this;
 
         //setting up the text value
        countDownTimer._myGameTimer= (TextView)findViewById(R.id.myGameTimer);
         countDownTimer._myGameTimer.setText("Timer: " + String.valueOf(startTime / 1000)+"s");
 
+        //setting up the drawer
+        drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
 
-       drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
 
     }
 
@@ -162,7 +164,7 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
     {
         //starting the timer
         if(!countDownTimer.is_timeHasStarted()) {
-            countDownTimer.start();
+            countDownTimer.start();//starting the timer here
             countDownTimer.set_timeHasStarted(true);
         }
 
@@ -243,5 +245,7 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
           //exit the activity
       }
     }
+
+
 
 }
