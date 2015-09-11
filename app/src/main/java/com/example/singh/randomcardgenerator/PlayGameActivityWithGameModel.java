@@ -234,7 +234,7 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
           //resetting the timer
           countDownTimer.set_timeHasStarted(false);
           countDownTimer.cancel();
-          countDownTimer._myGameTimer.setText("Timer: "+String.valueOf(startTime/1000));
+          countDownTimer._myGameTimer.setText("Timer: "+String.valueOf(startTime/1000)+"s");
 
           this._gameInfo.setText("Tap Card To Play");
           this.flipLable.setText("Flips:" + flipCount);

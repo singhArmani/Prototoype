@@ -12,7 +12,7 @@ import android.widget.Toast;
 public class myCounter extends CountDownTimer {
 
     private boolean _timeHasStarted = false;
-
+    private boolean _gameOver = false;
 
     public boolean is_timeHasStarted() {
         return _timeHasStarted;
@@ -36,5 +36,6 @@ public class myCounter extends CountDownTimer {
     public void onFinish() {
         //game over dialog popup message with the score made
         _myGameTimer.setText("Game Over");
+
     }
 }
