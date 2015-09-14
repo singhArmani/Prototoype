@@ -1,5 +1,7 @@
 package com.example.singh.randomcardgenerator;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.widget.DrawerLayout;
@@ -12,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +24,7 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
     private PlayingCardDeck deck;
     private int flipCount=0;
     private myCounter countDownTimer;
-    private final long startTime = 50000;
+    private final long startTime = 10000;
     private final long interval = 1000;
    // private int Score=0;
     private TextView flipLable;
@@ -125,7 +128,7 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
 
         //creating instance of myCounter.
         countDownTimer = new myCounter(startTime,interval);
-        countDownTimer.currentActivity = this;
+       // countDownTimer.currentActivity = this;
 
         //setting up the text value
        countDownTimer._myGameTimer= (TextView)findViewById(R.id.myGameTimer);
@@ -246,6 +249,62 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
       }
     }
 
+
+    //myCounter class
+    public class myCounter extends CountDownTimer {
+
+        private boolean _timeHasStarted = false;
+        private boolean _gameOver = false;
+
+        // public Activity currentActivity;
+
+        public boolean is_timeHasStarted() {
+            return _timeHasStarted;
+        }
+
+        public void set_timeHasStarted(boolean _timeHasStarted) {
+            this._timeHasStarted = _timeHasStarted;
+        }
+
+        TextView _myGameTimer;
+        public myCounter(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            _myGameTimer.setText("Timer: " + millisUntilFinished / 1000+"s");
+        }
+
+        @Override
+        public void onFinish() {
+            //game over dialog popup message with the score made
+            _myGameTimer.setText("Game Over");
+            _gameOver= true;//setting the gameOver true;
+
+            int score =CardMatchingGame.currentCardMatchingGame.getScore();
+            AlertDialog.Builder myalert = new AlertDialog.Builder(PlayGameActivityWithGameModel.this);
+            myalert.setTitle("Game Over");
+            myalert.setMessage("Your Score: " + score);
+            myalert.setPositiveButton("New Game", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+
+                }
+            });
+
+            myalert.setNegativeButton("Back to Main", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getApplicationContext(), "Main Screen clicked", Toast.LENGTH_SHORT).show();
+                }
+            });
+            myalert.create();
+            myalert.show();
+
+        }
+    }
 
 
 }
