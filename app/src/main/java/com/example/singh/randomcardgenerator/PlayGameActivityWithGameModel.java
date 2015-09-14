@@ -2,6 +2,7 @@ package com.example.singh.randomcardgenerator;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.widget.DrawerLayout;
@@ -289,8 +290,7 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
             myalert.setPositiveButton("New Game", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-
-
+                      PlayGameActivityWithGameModel.this.NewGame();//starting new game
                 }
             });
 
@@ -298,6 +298,9 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Toast.makeText(getApplicationContext(), "Main Screen clicked", Toast.LENGTH_SHORT).show();
+                    //return to main activity
+                    Intent mainIntentObject = new Intent(PlayGameActivityWithGameModel.this,MainActivity.class);
+                    startActivity(mainIntentObject);
                 }
             });
             myalert.create();
@@ -305,6 +308,28 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
 
         }
     }
+    //new game
+    public void NewGame()
+    {
+        //start a new game
+        this.game = new CardMatchingGame(cardButtons.size(),new PlayingCardDeck());
 
+        this.flipCount=0;
 
+        //updating the UI again
+        this.updateUI();
+
+        //closing the drawer
+        drawer.closeDrawer(l);
+
+        //resetting the timer
+        countDownTimer.set_timeHasStarted(false);
+        countDownTimer.cancel();
+        countDownTimer._myGameTimer.setText("Timer: "+String.valueOf(startTime/1000)+"s");
+
+        this._gameInfo.setText("Tap Card To Play");
+        this.flipLable.setText("Flips:" + flipCount);
+    }
 }
+
+
