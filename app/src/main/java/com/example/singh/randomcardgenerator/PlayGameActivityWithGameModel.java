@@ -156,7 +156,13 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_new_game) {
+            PlayGameActivityWithGameModel.this.NewGame();//start a new game
+            return true;
+        }
+
+        if (id == R.id.action_help) {
+            //start the help activity here
             return true;
         }
 
@@ -320,11 +326,12 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
         this.updateUI();
 
         //closing the drawer
-        drawer.closeDrawer(l);
+        //drawer.closeDrawer(l);
 
         //resetting the timer
-        countDownTimer.set_timeHasStarted(false);
         countDownTimer.cancel();
+
+        countDownTimer.set_timeHasStarted(false);
         countDownTimer._myGameTimer.setText("Timer: "+String.valueOf(startTime/1000)+"s");
 
         this._gameInfo.setText("Tap Card To Play");
