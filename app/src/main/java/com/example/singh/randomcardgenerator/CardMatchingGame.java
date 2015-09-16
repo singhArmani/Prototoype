@@ -7,11 +7,12 @@ import java.util.List;
  * Created by singh on 26/08/2015.
  */
 public class CardMatchingGame {
-
     //data members
     private int Score=0;
     private static final int MATCH_BONUS= 4, MISMATCH_PENALITY=2,FLIP_COST =1;
     private List<Card> cards;
+
+    public static CardMatchingGame currentCardMatchingGame;
 
     //lazy instantiation
     public List<Card> getCard() {
@@ -43,6 +44,7 @@ public class CardMatchingGame {
                  break;
              }
          }
+        currentCardMatchingGame = this;
     }
 
     public void flipCardAtIndex(int index){

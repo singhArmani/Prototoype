@@ -7,4 +7,5 @@
     <string name="title_activity_play_game">PlayGameActivity</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_help">HELP</string>
 </resources>

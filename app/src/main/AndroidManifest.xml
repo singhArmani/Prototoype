@@ -20,10 +20,13 @@
             android:name=".PlayGameActivity"
             android:label="@string/title_activity_play_game" >
         </activity>
-
         <activity
             android:name=".PlayGameActivityWithGameModel"
             android:label="@string/title_activity_play_game" >
+        </activity>
+        <activity
+            android:name=".helpActivity"
+            android:label="@string/title_activity_help" >
         </activity>
     </application>
 

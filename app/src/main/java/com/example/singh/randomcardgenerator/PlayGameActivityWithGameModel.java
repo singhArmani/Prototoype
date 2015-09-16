@@ -1,6 +1,11 @@
 package com.example.singh.randomcardgenerator;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +24,11 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
 
     private PlayingCardDeck deck;
     private int flipCount=0;
+    private myCounter countDownTimer;
+    private  long startTime = 20000;
+    private final long interval = 1000;
+   // private long timeLeft;
+    TextView _myGameTimer = null;
    // private int Score=0;
     private TextView flipLable;
     private CardMatchingGame game;
@@ -27,7 +38,9 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
     //setting up the list view
     ListView l;
     String[] navigationOptions={"New Game","Help","Exit"};
-    //setter
+
+    //Drawer
+    private  DrawerLayout drawer;
 
 
     public void setCardButton(List<Button> cardButton) {
@@ -115,6 +128,19 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
         //setting up the adapter
         l.setAdapter(adapter);
         l.setOnItemClickListener(this);
+
+        //creating instance of myCounter.
+        countDownTimer = new myCounter(startTime,interval);
+       // countDownTimer.currentActivity = this;
+
+        //setting up the text value
+       _myGameTimer= (TextView)findViewById(R.id.myGameTimer);
+        _myGameTimer.setText("Timer: " + String.valueOf(startTime / 1000)+"s");
+
+        //setting up the drawer
+        drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
+
+
     }
 
     @Override
@@ -132,7 +158,15 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_new_game) {
+            PlayGameActivityWithGameModel.this.NewGame();//start a new game
+            return true;
+        }
+
+        if (id == R.id.action_help) {
+            //start the help activity here
+            Intent helpIntent = new Intent(this,helpActivity.class);
+            startActivity(helpIntent);
             return true;
         }
 
@@ -142,6 +176,13 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
     //flipping card here
     public void onFlip(View view)
     {
+        //starting the timer
+        if(!countDownTimer.is_timeHasStarted()) {
+            countDownTimer.start();//starting the timer here
+            countDownTimer.set_timeHasStarted(true);
+        }
+
+
         //incrementing the flipcount
         flipCount++;
          Button _button = (Button)findViewById(view.getId());
@@ -203,6 +244,13 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
           //updating the UI again
           this.updateUI();
 
+          //closing the drawer
+           drawer.closeDrawer(l);
+
+          //resetting the timer
+          countDownTimer.set_timeHasStarted(false);
+          countDownTimer.cancel();
+          _myGameTimer.setText("Timer: "+String.valueOf(startTime/1000)+"s");
 
           this._gameInfo.setText("Tap Card To Play");
           this.flipLable.setText("Flips:" + flipCount);
@@ -211,4 +259,115 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
           //exit the activity
       }
     }
+
+
+    //myCounter class
+    public class myCounter extends CountDownTimer {
+
+        private boolean _timeHasStarted = false;
+        private boolean _gameOver = false;
+
+        // public Activity currentActivity;
+
+        public boolean is_timeHasStarted() {
+            return _timeHasStarted;
+        }
+
+        public void set_timeHasStarted(boolean _timeHasStarted) {
+            this._timeHasStarted = _timeHasStarted;
+        }
+
+
+        public myCounter(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            _myGameTimer.setText("Timer: " + millisUntilFinished / 1000+"s");
+            startTime = millisUntilFinished;
+        }
+
+        @Override
+        public void onFinish() {
+            //game over dialog popup message with the score made
+            _myGameTimer.setText("Game Over");
+            _gameOver= true;//setting the gameOver true;
+
+            int score =CardMatchingGame.currentCardMatchingGame.getScore();
+            AlertDialog.Builder myalert = new AlertDialog.Builder(PlayGameActivityWithGameModel.this);
+            myalert.setTitle("Game Over");
+            myalert.setMessage("Your Score: " + score);
+            myalert.setPositiveButton("New Game", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                      PlayGameActivityWithGameModel.this.NewGame();//starting new game
+                }
+            });
+
+            myalert.setNegativeButton("Back to Main", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getApplicationContext(), "Main Screen clicked", Toast.LENGTH_SHORT).show();
+                    //return to main activity
+                    Intent mainIntentObject = new Intent(PlayGameActivityWithGameModel.this,MainActivity.class);
+                    startActivity(mainIntentObject);
+                }
+            });
+            myalert.create();
+            myalert.show();
+
+        }
+    }
+    //new game
+    public void NewGame()
+    {
+        //start a new game
+        this.game = new CardMatchingGame(cardButtons.size(),new PlayingCardDeck());
+
+        this.flipCount=0;
+
+        //updating the UI again
+        this.updateUI();
+
+        //closing the drawer
+        //drawer.closeDrawer(l);
+
+        //resetting the timer
+         countDownTimer.cancel();
+         startTime=20000;
+
+        //creating instance of myCounter.
+        countDownTimer = new myCounter(startTime,interval);
+
+        countDownTimer.set_timeHasStarted(false);
+        _myGameTimer.setText("Timer: "+String.valueOf(startTime/1000)+"s");
+
+        this._gameInfo.setText("Tap Card To Play");
+        this.flipLable.setText("Flips:" + flipCount);
+    }
+
+    //on resume
+
+   @Override
+  protected void onResume() {
+        super.onResume();
+        if(countDownTimer.is_timeHasStarted())
+        {
+            countDownTimer= new myCounter(startTime,interval);
+            countDownTimer.start();
+            _myGameTimer.setText("Timer: " + String.valueOf(startTime / 1000) + "s");//setting the timevalue again
+            countDownTimer.set_timeHasStarted(true);
+
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        countDownTimer.cancel();//pausing the timer when acitivity is in background.
+    }
 }
+
+
