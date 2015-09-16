@@ -45,4 +45,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(playGameIntent);
 
     }
+
+    //getting the help screen
+    public void onHelp(View view){
+        //creating a new activity via intent
+        Intent helpIntent = new Intent(this,helpActivity.class);
+        startActivity(helpIntent);
+    }
 }
