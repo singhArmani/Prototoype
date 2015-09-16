@@ -317,6 +317,7 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
                     public void onClick(DialogInterface dialog, int which) {
                         editor.putInt("HighScore", score);
                         editor.commit();//doing commit here
+                        PlayGameActivityWithGameModel.this.NewGame();//starting new game
                     }
                 });
                 myalert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -324,6 +325,7 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
                     public void onClick(DialogInterface dialog, int which) {
                         editor.putInt("HighScore",0);
                         editor.commit();
+                        PlayGameActivityWithGameModel.this.NewGame();//starting new game
                     }
                 });
             }

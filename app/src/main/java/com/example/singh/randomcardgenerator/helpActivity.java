@@ -12,7 +12,7 @@ public class helpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
-        ((TextView)findViewById(R.id.instructions)).setText("•\tGame timer starts once you hit play button.\n\n" +
+        ((TextView)findViewById(R.id.instructions)).setText("•\tGame timer starts once you tap first card.\n\n" +
                         "•\tOnly one minute is given for matching.\n\n"
                         + "•\tFlipping has a cost associated with it given that it’s face down card.\n\n"
                         + "•\tFor a mismatch you will be punished with penalty of 2 points.\n\n"
