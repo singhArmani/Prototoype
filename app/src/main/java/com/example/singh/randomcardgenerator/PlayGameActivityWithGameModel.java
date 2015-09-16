@@ -3,6 +3,7 @@ package com.example.singh.randomcardgenerator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.widget.DrawerLayout;
@@ -40,6 +41,10 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
     //Drawer
     private  DrawerLayout drawer;
 
+    //Saving HighScores
+    public static final String HIGH_SCORE = "HighScores";
+    private SharedPreferences prefs;
+    TextView highScore;
 
     public void setCardButton(List<Button> cardButton) {
         this.cardButtons = cardButton;
@@ -135,9 +140,17 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
        _myGameTimer= (TextView)findViewById(R.id.myGameTimer);
         _myGameTimer.setText("Timer: " + String.valueOf(startTime / 1000)+"s");
 
+        //setting up the gameInfo
+        _gameInfo = (TextView)findViewById(R.id.gameInfo);//getting the gameInfo textview
+
         //setting up the drawer
         drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
 
+        //setting up the prefs
+        prefs = getSharedPreferences(HIGH_SCORE,MODE_PRIVATE);
+
+        highScore= ((TextView)findViewById(R.id.highScore));//hooking up our textView
+        highScore.setText("HighScore: "+String.valueOf(prefs.getInt("HighScore",0)));
 
     }
 
@@ -206,8 +219,7 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
    public void Status(int scoreDiffernce, Button button)
    {
 
-       _gameInfo = (TextView)findViewById(R.id.gameInfo);//getting the gameInfo textview
-       //
+
        PlayingCard pc= (PlayingCard) this.getGame().cardAtIndex(this.cardButtons.indexOf(button));
 
        switch(scoreDiffernce){
@@ -235,23 +247,8 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
       if(position ==0){
           //start a new game
-           this.game = new CardMatchingGame(cardButtons.size(),new PlayingCardDeck());
-
-          this.flipCount=0;
-
-          //updating the UI again
-          this.updateUI();
-
-          //closing the drawer
-           drawer.closeDrawer(l);
-
-          //resetting the timer
-          countDownTimer.set_timeHasStarted(false);
-          countDownTimer.cancel();
-          _myGameTimer.setText("Timer: "+String.valueOf(startTime/1000)+"s");
-
-          this._gameInfo.setText("Tap Card To Play");
-          this.flipLable.setText("Flips:" + flipCount);
+           PlayGameActivityWithGameModel.this.NewGame();
+          drawer.closeDrawers();//closing the drawer
       }
         else{
           //exit the activity
@@ -292,27 +289,53 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
             _myGameTimer.setText("Game Over");
             _gameOver= true;//setting the gameOver true;
 
-            int score =CardMatchingGame.currentCardMatchingGame.getScore();
+            //why final ???
+            final int score =CardMatchingGame.currentCardMatchingGame.getScore();
+            final SharedPreferences.Editor editor = prefs.edit();
+           // editor.putInt("highScore",score);
+           // editor.putInt("currentScore",score);
+           // editor.commit();
+
             AlertDialog.Builder myalert = new AlertDialog.Builder(PlayGameActivityWithGameModel.this);
             myalert.setTitle("Game Over");
-            myalert.setMessage("Your Score: " + score);
-            myalert.setPositiveButton("New Game", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    PlayGameActivityWithGameModel.this.NewGame();//starting new game
-                }
-            });
+            if(score>prefs.getInt("HighScore",0))
+            {
+                myalert.setMessage("That's high Score of "+score+"\nPlease enter your name");
+                myalert.setPositiveButton("Save High Score", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        editor.putInt("HighScore", score);
+                        //editor.putString("PlayerName","Aman");
+                        editor.commit();
+                    }
+                });
+                myalert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        editor.putInt("HighScore",0);
+                    }
+                });
+            }
+            else {
+                myalert.setMessage("Your Score: " + score);
+                myalert.setPositiveButton("New Game", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PlayGameActivityWithGameModel.this.NewGame();//starting new game
+                    }
+                });
 
-            myalert.setNegativeButton("Back to Main", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getApplicationContext(), "Main Screen clicked", Toast.LENGTH_SHORT).show();
-                    //return to main activity
-                    Intent mainIntentObject = new Intent(PlayGameActivityWithGameModel.this, MainActivity.class);
-                    startActivity(mainIntentObject);
-                }
-            });
-            myalert.setCancelable(false);
+                myalert.setNegativeButton("Back to Main", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), "Main Screen clicked", Toast.LENGTH_SHORT).show();
+                        //return to main activity
+                        Intent mainIntentObject = new Intent(PlayGameActivityWithGameModel.this, MainActivity.class);
+                        startActivity(mainIntentObject);
+                    }
+                });
+            }
+            myalert.setCancelable(false);//so to make background window unclickable
             myalert.create();
             myalert.show();
 
@@ -330,8 +353,6 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
         //updating the UI again
         this.updateUI();
 
-        //closing the drawer
-        //drawer.closeDrawer(l);
 
         //resetting the timer
          countDownTimer.cancel();
@@ -339,12 +360,14 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
 
         //creating instance of myCounter.
         countDownTimer = new myCounter(startTime,interval);
-
         countDownTimer.set_timeHasStarted(false);
-        _myGameTimer.setText("Timer: "+String.valueOf(startTime/1000)+"s");
+        _myGameTimer.setText("Timer: " + String.valueOf(startTime / 1000) + "s");
 
         this._gameInfo.setText("Tap Card To Play");
         this.flipLable.setText("Flips:" + flipCount);
+
+        highScore.setText("HighScore: "+prefs.getInt("HighScore",0));
+
     }
 
     //on resume

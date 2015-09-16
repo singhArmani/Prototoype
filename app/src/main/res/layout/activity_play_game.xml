@@ -348,6 +348,19 @@
         android:layout_toLeftOf="@+id/button18"
         android:layout_toStartOf="@+id/button18" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="High Score:"
+        android:id="@+id/highScore"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_alignTop="@+id/score"
+        android:layout_alignLeft="@+id/myGameTimer"
+        android:layout_alignStart="@+id/myGameTimer" />
+
 
 </RelativeLayout>
 
