@@ -25,8 +25,10 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
     private PlayingCardDeck deck;
     private int flipCount=0;
     private myCounter countDownTimer;
-    private final long startTime = 10000;
+    private  long startTime = 20000;
     private final long interval = 1000;
+   // private long timeLeft;
+    TextView _myGameTimer = null;
    // private int Score=0;
     private TextView flipLable;
     private CardMatchingGame game;
@@ -132,8 +134,8 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
        // countDownTimer.currentActivity = this;
 
         //setting up the text value
-       countDownTimer._myGameTimer= (TextView)findViewById(R.id.myGameTimer);
-        countDownTimer._myGameTimer.setText("Timer: " + String.valueOf(startTime / 1000)+"s");
+       _myGameTimer= (TextView)findViewById(R.id.myGameTimer);
+        _myGameTimer.setText("Timer: " + String.valueOf(startTime / 1000)+"s");
 
         //setting up the drawer
         drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -163,6 +165,8 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
 
         if (id == R.id.action_help) {
             //start the help activity here
+            Intent helpIntent = new Intent(this,helpActivity.class);
+            startActivity(helpIntent);
             return true;
         }
 
@@ -246,7 +250,7 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
           //resetting the timer
           countDownTimer.set_timeHasStarted(false);
           countDownTimer.cancel();
-          countDownTimer._myGameTimer.setText("Timer: "+String.valueOf(startTime/1000)+"s");
+          _myGameTimer.setText("Timer: "+String.valueOf(startTime/1000)+"s");
 
           this._gameInfo.setText("Tap Card To Play");
           this.flipLable.setText("Flips:" + flipCount);
@@ -273,7 +277,7 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
             this._timeHasStarted = _timeHasStarted;
         }
 
-        TextView _myGameTimer;
+
         public myCounter(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
         }
@@ -281,6 +285,7 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
         @Override
         public void onTick(long millisUntilFinished) {
             _myGameTimer.setText("Timer: " + millisUntilFinished / 1000+"s");
+            startTime = millisUntilFinished;
         }
 
         @Override
@@ -329,13 +334,39 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
         //drawer.closeDrawer(l);
 
         //resetting the timer
-        countDownTimer.cancel();
+         countDownTimer.cancel();
+         startTime=20000;
+
+        //creating instance of myCounter.
+        countDownTimer = new myCounter(startTime,interval);
 
         countDownTimer.set_timeHasStarted(false);
-        countDownTimer._myGameTimer.setText("Timer: "+String.valueOf(startTime/1000)+"s");
+        _myGameTimer.setText("Timer: "+String.valueOf(startTime/1000)+"s");
 
         this._gameInfo.setText("Tap Card To Play");
         this.flipLable.setText("Flips:" + flipCount);
+    }
+
+    //on resume
+
+   @Override
+  protected void onResume() {
+        super.onResume();
+        if(countDownTimer.is_timeHasStarted())
+        {
+            countDownTimer= new myCounter(startTime,interval);
+            countDownTimer.start();
+            _myGameTimer.setText("Timer: " + String.valueOf(startTime / 1000) + "s");//setting the timevalue again
+            countDownTimer.set_timeHasStarted(true);
+
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        countDownTimer.cancel();//pausing the timer when acitivity is in background.
     }
 }
 
