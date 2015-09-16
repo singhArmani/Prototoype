@@ -6,4 +6,6 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_new_game" android:title="New Game"
         app:showAsAction="never"/>
+    <item android:id="@+id/action_reset_highScore" android:title="Reset HighScore"
+        app:showAsAction="never" />
 </menu>

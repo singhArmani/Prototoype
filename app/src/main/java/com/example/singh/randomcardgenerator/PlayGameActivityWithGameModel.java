@@ -150,7 +150,9 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
         prefs = getSharedPreferences(HIGH_SCORE,MODE_PRIVATE);
 
         highScore= ((TextView)findViewById(R.id.highScore));//hooking up our textView
-        highScore.setText("HighScore: "+String.valueOf(prefs.getInt("HighScore",0)));
+        highScore.setText("HighScore: " + String.valueOf(prefs.getInt("HighScore", 0)));
+
+
 
     }
 
@@ -179,6 +181,14 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
             Intent helpIntent = new Intent(this,helpActivity.class);
             startActivity(helpIntent);
             return true;
+        }
+
+        if(id==R.id.action_reset_highScore)
+        {
+                    SharedPreferences.Editor reset = prefs.edit();
+                    reset.putInt("HighScore",0);
+                    reset.commit();
+                    highScore.setText("HighScore: "+prefs.getInt("HighScore",0));//setting the highScore
         }
 
         return super.onOptionsItemSelected(item);
@@ -300,19 +310,20 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
             myalert.setTitle("Game Over");
             if(score>prefs.getInt("HighScore",0))
             {
-                myalert.setMessage("That's high Score of "+score+"\nPlease enter your name");
+                myalert.setMessage("Great!!That's high Score of "+score);
+
                 myalert.setPositiveButton("Save High Score", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         editor.putInt("HighScore", score);
-                        //editor.putString("PlayerName","Aman");
-                        editor.commit();
+                        editor.commit();//doing commit here
                     }
                 });
                 myalert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         editor.putInt("HighScore",0);
+                        editor.commit();
                     }
                 });
             }
