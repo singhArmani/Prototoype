@@ -22,14 +22,12 @@ import java.util.List;
 
 public class PlayGameActivityWithGameModel extends AppCompatActivity implements  AdapterView.OnItemClickListener {
 
-    private PlayingCardDeck deck;
+    //private PlayingCardDeck deck;
     private int flipCount=0;
     private myCounter countDownTimer;
     private  long startTime = 20000;
     private final long interval = 1000;
-   // private long timeLeft;
     TextView _myGameTimer = null;
-   // private int Score=0;
     private TextView flipLable;
     private CardMatchingGame game;
     private List<Button> cardButtons;
@@ -301,7 +299,7 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
             myalert.setPositiveButton("New Game", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                      PlayGameActivityWithGameModel.this.NewGame();//starting new game
+                    PlayGameActivityWithGameModel.this.NewGame();//starting new game
                 }
             });
 
@@ -310,12 +308,14 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
                 public void onClick(DialogInterface dialog, int which) {
                     Toast.makeText(getApplicationContext(), "Main Screen clicked", Toast.LENGTH_SHORT).show();
                     //return to main activity
-                    Intent mainIntentObject = new Intent(PlayGameActivityWithGameModel.this,MainActivity.class);
+                    Intent mainIntentObject = new Intent(PlayGameActivityWithGameModel.this, MainActivity.class);
                     startActivity(mainIntentObject);
                 }
             });
+            myalert.setCancelable(false);
             myalert.create();
             myalert.show();
+
 
         }
     }
