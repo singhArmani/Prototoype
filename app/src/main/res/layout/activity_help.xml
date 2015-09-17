@@ -5,7 +5,7 @@
     tools:context="com.example.singh.randomcardgenerator.helpActivity"
     android:weightSum="1"
     android:orientation="vertical"
-    >
+    android:background="#3F51B5">
 
 
     <TextView

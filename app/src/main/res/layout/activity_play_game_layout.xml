@@ -9,14 +9,16 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.singh.randomcardgenerator.PlayGameActivity"
-     android:background="@android:color/holo_green_dark"
-    android:orientation="vertical">
+     android:background="#009688"
+    android:orientation="vertical"
+    android:clickable="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:background="@color/dim_foreground_disabled_material_light">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,7 +28,8 @@
             android:textColor="#ffffff"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:padding="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -37,7 +40,8 @@
             android:textColor="#ffffff"
             android:textStyle="bold"
             android:textSize="20sp"
-            android:layout_alignParentLeft="true"/>
+            android:layout_alignParentLeft="true"
+            android:padding="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -48,7 +52,8 @@
             android:textColor="#ffffff"
             android:textStyle="bold"
             android:textSize="15sp"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:padding="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -60,7 +65,7 @@
             android:textColor="#ffffff"
             android:textSize="20sp"
             android:layout_below="@+id/flip_count"
-            />
+            android:padding="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -73,7 +78,8 @@
             android:textSize="20sp"
             android:layout_below="@+id/score"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:padding="5dp" />
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
