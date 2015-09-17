@@ -1,13 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@android:color/holo_red_light</item>
-        <item name="android:colorAccent">@android:color/holo_green_dark</item>
-        <item name="android:colorPrimary">@android:color/holo_blue_light</item>
-        <item name="android:colorPrimaryDark">@android:color/holo_blue_dark</item>
+    <style name="AppTheme." parent="AppBaseTheme">
     </style>
-
-
 </resources>
