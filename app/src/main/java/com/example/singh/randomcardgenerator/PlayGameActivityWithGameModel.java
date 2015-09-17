@@ -91,7 +91,7 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_play_game);
+        setContentView(R.layout.activity_play_game_layout);
 
        //linking the card button of layout with java code
         List<Button>myRandomButton = new ArrayList<>(20);
@@ -316,6 +316,7 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         editor.putInt("HighScore", score);
+                        editor.putString("PlayerName","Aman");
                         editor.commit();//doing commit here
                         PlayGameActivityWithGameModel.this.NewGame();//starting new game
                     }
