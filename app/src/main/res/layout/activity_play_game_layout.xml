@@ -49,9 +49,9 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Tap to play"
             android:id="@+id/gameInfo"
-            android:textColor="#ffffff"
+            android:textColor="#FF5722"
             android:textStyle="bold"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:layout_centerHorizontal="true"
             android:padding="5dp" />
 

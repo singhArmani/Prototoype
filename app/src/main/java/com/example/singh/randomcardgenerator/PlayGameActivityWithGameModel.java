@@ -235,16 +235,16 @@ public class PlayGameActivityWithGameModel extends AppCompatActivity implements 
        switch(scoreDiffernce){
            case 3:
 
-               _gameInfo.setText("It was a Suit match of " + pc.getSuit());//getting the first part of string which is suit
+               _gameInfo.setText("\t\tGood\nSuit match of" + pc.getSuit());//getting the first part of string which is suit
 
                break;
            case 15:
 
-               _gameInfo.setText("It was a Rank match of " + pc.getRank());//getting the second part of string which is rank
+               _gameInfo.setText("\t\tWow! Great\nRank match of " + pc.getRank());//getting the second part of string which is rank
 
                break;
            case -3:
-               _gameInfo.setText("It was a Mis-Match!!!");
+               _gameInfo.setText("\t\tSorry\nIt was a Mis-Match!!");
                break;
            case -1:
                _gameInfo.setText("Flipping Cost of -1");
